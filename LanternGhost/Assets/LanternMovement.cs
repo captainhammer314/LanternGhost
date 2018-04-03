@@ -9,18 +9,19 @@ public class LanternMovement : MonoBehaviour {
          * different click to recall
          */
 
-    private Lantern lantern;
-    private float windUpTime;
+    public Lantern lantern;
+    public float windUpTime;
     private Vector2 throwTarget;
-    private Rigidbody2D humanBody;
-    private Rigidbody2D lanternBody;
+	public Rigidbody2D humanBody;
+	public Rigidbody2D lanternBody;
     private float throwSpeed;
-    private const float WIND_UP_MULTIPLIER = 5f;
+    private const float WIND_UP_MULTIPLIER = 1f;
 
     void Start () {
         lantern = GetComponent<Lantern>();
         windUpTime = 0.0f;
-        humanBody = lantern.players.human.GetComponent<Rigidbody2D>();
+        //humanBody = lantern.players.human.GetComponent<Rigidbody2D>();
+		humanBody = lantern.transform.parent.GetComponentInChildren<Human>().GetComponent<Rigidbody2D>();
         lanternBody = lantern.GetComponent<Rigidbody2D>();
         throwSpeed = 5;
     }
@@ -38,7 +39,7 @@ public class LanternMovement : MonoBehaviour {
          * if new press, timestamp
          */
 
-        bool throwButtonDown = Input.GetButtonDown("Throw");
+		bool throwButtonDown = Input.GetButton ("Throw");
         switch (lantern.lanternState)
         {
             case Lantern.LanternState.HELD:
@@ -56,7 +57,8 @@ public class LanternMovement : MonoBehaviour {
                 else
                 {
                     lantern.lanternState = Lantern.LanternState.THROWING;
-                    throwTarget = (lantern.players.human.faceDirection * WIND_UP_MULTIPLIER) + humanBody.position;
+                    throwTarget = (lantern.players.human.faceDirection * WIND_UP_MULTIPLIER * windUpTime) + humanBody.position;
+					windUpTime = 0;
                 }
                 break;
             case Lantern.LanternState.THROWING:
