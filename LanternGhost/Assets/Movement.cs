@@ -14,11 +14,18 @@ public class Movement : MonoBehaviour {
 	private float lanternReturnSpeed;
 	private Vector2 snapToLocation;
 
+    /*TODO
+     * should recall over threshold
+     * hold click in direction, then release to throw, based on held duration
+     * different click to recall
+     */
+
+
 	// Use this for initialization
 	void Start()
 	{
 		//Get and store a reference to the Rigidbody2D component so that we can access it.
-		gooberBod = GameObject.Find("Goober").GetComponent<Rigidbody2D>();
+		gooberBod = GameObject.Find("Human").GetComponent<Rigidbody2D>();
 		lantern = GameObject.Find ("Lantern").GetComponent<Rigidbody2D>();
 		lanternReturnSpeed = speed * 1.5f;
 	}
